@@ -23,5 +23,12 @@ class Formateur extends Model
         return $this->belongsToMany(Groupe::class, 'groupe_formateur', 'formateur_id', 'groupe_id')
                     ->withTimestamps();
     }
+    protected static function boot(){
+        parent::boot();
 
+        static::saving(function($formateur){
+            $formateur->nom    = ucfirst(strtolower($formateur->nom));
+            $formateur->prenom = ucfirst(strtolower($formateur->prenom));
+        });
+    }
 }
