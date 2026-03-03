@@ -32,4 +32,16 @@ class Seance extends Model
     public function groupe(){
         return $this->belongsTo(Groupe::class);
     }
+
+    protected static function boot(){
+        parent::boot();
+
+        static::saving(function($seance){
+            if($seance->heure_debut >= $seance->heure_fin){
+                throw new \InvalidArgumentException(
+                    "l'heure de debut est apres l'heure de fin"
+                );
+            }
+        });
+    }
 }
