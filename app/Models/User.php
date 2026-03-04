@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'formateur_id',
+        'groupe_id'
     ];
 
     /**
@@ -43,6 +46,24 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'role' => 'string'
         ];
+    }
+
+    public function formateur(){
+        return $this->belongsTo(Formateur::class);
+    }
+    public function groupe(){
+        return $this->belongsTo(Groupe::class);
+    }
+
+    public function isAdmin(){
+        return $this->role === 'admin';
+    }
+    public function isFormateur(){
+        return $this->role === 'formateur';
+    }
+    public function isStagiaire(){
+        return $this->role === 'stagiaire';
     }
 }
